@@ -95,6 +95,7 @@ Instructions at <https://github.com/bioconda/bioconda-recipes>.
 ```bash
 # Clone local copy of bioconda recipes
 git clone https://github.com/bioconda/bioconda-recipes.git
+cd bioconda-recipes/
 
 # Create package in recipes/
 
