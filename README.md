@@ -82,6 +82,10 @@ Available at <https://bioconda.github.io/>.
 conda config --add channels r
 conda config --add channels bioconda
 
+# Create environment to make it easy to disable/remove installed software
+conda create --name biotest python
+source activate biotest
+
 # Install art read simulator
 conda search art
 conda install art
@@ -139,3 +143,14 @@ docker run -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages neptu
 ```
 
 Now push to github and create pull request.  See <https://github.com/bioconda/bioconda-recipes/pulls>.
+
+# Removing conda
+
+Sometimes it may be useful to remove conda completly (e.g., to remove conflicting packages from root environment).  This can be done with:
+
+```bash
+rm -rf ~/miniconda2
+
+# Remove conda from PATH in ~/.bashrc
+vi ~/.bashrc
+```
