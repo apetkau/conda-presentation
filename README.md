@@ -1,3 +1,12 @@
+# Introduction
+
+This project contains examples on how to work with [conda](http://conda.pydata.org/docs/), an open source package and environment management system.  The examples provided go over:
+
+1. Installing conda
+2. Package and environment management
+3. Channels and Bioconda
+4. Building packages, specifically for bioconda
+
 # Install Conda
 
 From http://conda.pydata.org/miniconda.html
@@ -5,6 +14,10 @@ From http://conda.pydata.org/miniconda.html
 ```bash
 wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
 bash Miniconda2-latest-Linux-x86_64.sh
+
+# Install client for anaconda cloud
+# Removes warning message "Warning: somethings is wrong with binstar_client"
+conda install anaconda-client # client for anaconda cloud
 ```
 
 # Package Management
@@ -36,14 +49,17 @@ python -c "import scipy; print scipy.__version__"
 conda info --envs
 ls $HOME/miniconda2/envs/oldmodules
 
+# Display modules in environment
+conda list --name oldmodules
+
 # Save/re-load environments
-conda create --name oldmodules scipy=0.11.0
+conda list --name oldmodules --export > saved-environment.txt
 
 # Re-construct same environemnt
 conda create --name oldmodules2 --file saved-environment.txt
 
-# List all environments
-conda info --envs
+# copy environments
+conda create --name oldmodulescopy --clone oldmodules
 ```
 
 # Conda Channels
@@ -74,6 +90,10 @@ art_illumina
 # Install neptune
 conda install neptune
 neptune
+
+# Install rgi (resistence gene identifier)
+conda install rgi
+rgi --help
 ```
 
 # Building conda packages
@@ -84,13 +104,19 @@ Example fastqc recipie taken from <https://github.com/bioconda/bioconda-recipes/
 # Install conda-build needed for building packages
 conda install conda-build
 
-ls recipes/fastqc
+# Builds package
 conda build recipes/fastqc
+
+# Install local package
+conda install ~/minicnda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
+
+# Optionally upload package to anaconda cloud for sharing (requires account)
+anaconda upload ~/minicnda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
 ```
 
 # Building bioconda packages
 
-Instructions at <https://github.com/bioconda/bioconda-recipes>.
+Instructions at <https://github.com/bioconda/bioconda-recipes>.  Bioconda automates process of building, testing, and uploading package to bioconda with github and travis-ci.
 
 ```bash
 # Clone local copy of bioconda recipes
@@ -99,8 +125,8 @@ cd bioconda-recipes/
 
 # Create package in recipes/
 
-# Build package
-conda build recipes/fastqc --channel bioconda
+# Build package (if dependencies in bioconda channel will need to add this channel)
+conda build recipes/neptune
 
 # Install docker for testing build in docker (can skip if docker installed)
 curl -sSL https://get.docker.com/ | sh
@@ -109,7 +135,7 @@ sudo usermod -a -G docker `whoami`
 # Close/re-open terminal to refresh groups
 
 # Run build and test process in docker container
-docker run -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages fastqc --env-matrix /bioconda-recipes/scripts/env_matrix.yml
+docker run -v `pwd`:/bioconda-recipes bioconda/bioconda-builder --packages neptune --env-matrix /bioconda-recipes/scripts/env_matrix.yml
 ```
 
-Now push to github and create pull request.
+Now push to github and create pull request.  See <https://github.com/bioconda/bioconda-recipes/pulls>.
