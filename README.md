@@ -108,10 +108,10 @@ conda install conda-build
 conda build recipes/fastqc
 
 # Install local package
-conda install ~/minicnda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
+conda install ~/miniconda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
 
 # Optionally upload package to anaconda cloud for sharing (requires account)
-anaconda upload ~/minicnda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
+anaconda upload ~/miniconda2/conda-bld/linux-64/fastqc-0.11.5-1.tar.bz2
 ```
 
 # Building bioconda packages
